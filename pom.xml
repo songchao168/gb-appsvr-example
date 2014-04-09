@@ -4,5 +4,5 @@
   <artifactId>gb-appsvr-example</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>war</packaging>
-  <name>gb-appsvr-example</name>
+  <name>gb-appsvr-example</name> 
 </project>
