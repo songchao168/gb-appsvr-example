@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:core="http://cxf.apache.org/core"
+	xmlns:jaxws="http://cxf.apache.org/jaxws"
+	xsi:schemaLocation="http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
+		
+<!-- 该文件定义公用组件、datasource等全局组件 -->
+    <import resource="classpath:META-INF/cxf/cxf.xml" />  
+    <import resource="classpath:META-INF/cxf/cxf-extension-soap.xml" />  
+    <import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
+
+  	<bean id="writeXmlDeclarationInterceptor" class="org.bgi.commons.ws.WriteXmlDeclarationInterceptor" />
+  	
+  	<core:bus>
+  		<core:features>
+  			<core:logging/>
+  		</core:features>
+  		<core:outInterceptors>
+  			<ref bean="writeXmlDeclarationInterceptor"/>
+  		</core:outInterceptors>
+  	</core:bus>		
+  									  	
+  	<jaxws:endpoint id="bookService" implementor="#bookServiceImpl" address="/bookService">
+	<!-- 	<jaxws:features>
+			<bean class="org.apache.cxf.feature.LoggingFeature" />
+		</jaxws:features> -->
+	</jaxws:endpoint>
+	
+<!--   	<jaxws:endpoint id="authService" implementor="#authServiceImpl"
+		address="/authService">  -->
+	<!-- 	<jaxws:features>
+			<bean class="org.apache.cxf.feature.LoggingFeature" />
+		</jaxws:features>
+		<jaxws:inInterceptors>
+			<ref bean="ssovalidateintercepter" />
+		</jaxws:inInterceptors> -->
+<!-- 	</jaxws:endpoint>  -->
+	
+	
+</beans>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration
+ 2.0//EN" "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+ 
+<tiles-definitions>
+    
+	
+	<!-- 管理 -->	
+	
+	<!-- 列表 -->
+	<definition name="manage_book_list" template="/WEB-INF/views/pc/template/template_lr.jsp">
+	    <put-attribute name="title" value="Example Search List" />
+	    <put-attribute name="pri_link" value="/WEB-INF/views/pc/pages/books/manage/pri/list_link.jsp" />
+	    <put-attribute name="active_bar" value="bar_borrow" />
+	    <put-attribute name="content" value="/WEB-INF/views/pc/pages/books/manage/list.jsp" />	
+	</definition>
+	
+	<!-- 添加 -->
+	<definition name="book_add" template="/WEB-INF/views/pc/template/template_lr.jsp">
+	    <put-attribute name="title" value="Example Add" />
+	    <put-attribute name="pri_link" value="/WEB-INF/views/pc/pages/books/manage/pri/list_link.jsp" />
+	    <put-attribute name="active_bar" value="bar_book_add" />
+	    <put-attribute name="content" value="/WEB-INF/views/pc/pages/books/manage/add.jsp" />	
+	</definition>
+	
+		<!-- 更新 -->
+	<definition name="book_edit" template="/WEB-INF/views/pc/template/template_lr.jsp">
+	    <put-attribute name="title" value="Example Edit" />
+	    <put-attribute name="pri_link" value="/WEB-INF/views/pc/pages/books/manage/pri/list_link.jsp" />
+	    <put-attribute name="active_bar" value="bar_book_edit" />
+	    <put-attribute name="content" value="/WEB-INF/views/pc/pages/books/manage/edit.jsp" />	
+	</definition>
+	
+</tiles-definitions>
