@@ -13,6 +13,6 @@
      		<property name="customerDao" ref="customerDaoImpl"></property>
      	</bean>   --> 
      	
-     	 <bean id="bookServiceImpl" class="genebook.websvr.example.book.service.BookServiceImpl">
-     	</bean>               
+     	 <bean id="bookServiceImpl" class="genebook.appsvr.example.book.service.BookServiceImpl">
+     	</bean>      
 </beans>

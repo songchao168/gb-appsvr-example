@@ -1,4 +1,4 @@
-//package genebook.websvr.example.book.service;
+//package genebook.appsvr.example.book.service;
 //
 //import static junit.framework.Assert.assertEquals;
 //import static org.mockito.Matchers.any;
@@ -7,9 +7,9 @@
 //import static org.mockito.Mockito.verify;
 //import static org.mockito.Mockito.verifyNoMoreInteractions;
 //import static org.mockito.Mockito.when;
-//import genebook.websvr.example.book.dao.BookRepository;
-//import genebook.websvr.example.domain.TBook;
-//import genebook.websvr.example.dto.BookDTO;
+//import genebook.appsvr.example.book.dao.BookRepository;
+//import genebook.appsvr.example.domain.TBook;
+//import genebook.appsvr.example.dto.BookDTO;
 //
 //import java.math.BigDecimal;
 //import java.sql.Timestamp;

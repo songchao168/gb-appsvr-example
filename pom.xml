@@ -83,18 +83,23 @@
 			<type>jar</type>
 			<scope>provided</scope>
 		</dependency>
-		<dependency>
+<!-- 		<dependency>
 			<groupId>com.oracle</groupId>
 			<artifactId>ojdbc6</artifactId>
 			<version>11.2.0.1.0</version>
-		</dependency>
+		</dependency> -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.1.6</version>
+		</dependency>		
 		<dependency>
 			<groupId>c3p0</groupId>
 			<artifactId>c3p0</artifactId>
 			<version>0.9.1.2</version>
 			<type>jar</type>
 		</dependency>
-		<dependency>
+<!-- 		<dependency>
 			<groupId>bgi.commons.core</groupId>
 			<artifactId>bgi.commons.core</artifactId>
 			<version>2.0.0</version>
@@ -106,13 +111,13 @@
 			<artifactId>bgi.commons.jdbc</artifactId>
 			<version>2.0.0</version>
 			<scope>compile</scope>
-		</dependency>
-		<dependency>
+		</dependency> -->
+<!-- 		<dependency>
 			<groupId>bgi.commons.ws</groupId>
 			<artifactId>bgi.commons.ws</artifactId>
 			<version>2.0.0</version>
 			<scope>compile</scope>
-		</dependency>
+		</dependency> -->
 		<dependency>
 			<groupId>com.alibaba</groupId>
 			<artifactId>fastjson</artifactId>
@@ -203,7 +208,7 @@
 			<artifactId>cxf-rt-transports-http</artifactId>
 			<version>${cxf.version}</version>
 		</dependency>
-		<dependency>
+<!-- 		<dependency>
 			<groupId>bgi.sso.client</groupId>
 			<artifactId>bgi-sso-client-web</artifactId>
 			<version>1.0.0</version>
@@ -214,7 +219,7 @@
 			<artifactId>bgi-sso-partner-client-web-1.0.0</artifactId>
 			<version>1.0.0</version>
 			<scope>compile</scope>
-		</dependency>
+		</dependency> -->
 
 		<dependency>
 			<groupId>org.hibernate</groupId>
@@ -286,29 +291,29 @@
 			<artifactId>javase</artifactId>
 			<version>2.2</version>
 		</dependency>
-		<dependency>
+<!-- 		<dependency>
 			<groupId>genebook.common</groupId>
 			<artifactId>genebook-common-tag</artifactId>
 			<version>1.0.0</version>
-		</dependency>
+		</dependency> -->
 
 		<!-- 框架依赖 end -->
 
 		<!-- genebook-sso-1.0.0start -->
-		<dependency>
+<!-- 		<dependency>
 			<groupId>genebook-sso</groupId>
 			<artifactId>genebook-sso-1.0.0</artifactId>
 			<version>1.0.0</version>
 			<scope>compile</scope>
 		</dependency>
-		<!-- genebook-sso-1.0.0end -->
+		genebook-sso-1.0.0end
 
 
 		<dependency>
 			<groupId>bgi.commons.web</groupId>
 			<artifactId>bgi.commons.web</artifactId>
 			<version>2.0.0</version>
-		</dependency>
+		</dependency> -->
 		<!-- log -->
 		<dependency>
 			<groupId>org.slf4j</groupId>

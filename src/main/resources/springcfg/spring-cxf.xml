@@ -8,36 +8,26 @@
 		http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 		
 <!-- 该文件定义公用组件、datasource等全局组件 -->
-    <import resource="classpath:META-INF/cxf/cxf.xml" />  
+<!--     <import resource="classpath:META-INF/cxf/cxf.xml" />  
     <import resource="classpath:META-INF/cxf/cxf-extension-soap.xml" />  
-    <import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
+    <import resource="classpath:META-INF/cxf/cxf-servlet.xml" /> -->
 
-  	<bean id="writeXmlDeclarationInterceptor" class="org.bgi.commons.ws.WriteXmlDeclarationInterceptor" />
+<!--   	<bean id="writeXmlDeclarationInterceptor" class="org.bgi.commons.ws.WriteXmlDeclarationInterceptor" /> -->
   	
-  	<core:bus>
+<!--   	<core:bus>
   		<core:features>
   			<core:logging/>
   		</core:features>
   		<core:outInterceptors>
   			<ref bean="writeXmlDeclarationInterceptor"/>
   		</core:outInterceptors>
-  	</core:bus>		
+  	</core:bus>	 -->	
   									  	
-  	<jaxws:endpoint id="bookService" implementor="#bookServiceImpl" address="/bookService">
+  	<jaxws:endpoint id="bookService" endpointName="xxx1" implementor="#bookServiceImpl"  address="/bookService">
 	<!-- 	<jaxws:features>
 			<bean class="org.apache.cxf.feature.LoggingFeature" />
 		</jaxws:features> -->
 	</jaxws:endpoint>
-	
-<!--   	<jaxws:endpoint id="authService" implementor="#authServiceImpl"
-		address="/authService">  -->
-	<!-- 	<jaxws:features>
-			<bean class="org.apache.cxf.feature.LoggingFeature" />
-		</jaxws:features>
-		<jaxws:inInterceptors>
-			<ref bean="ssovalidateintercepter" />
-		</jaxws:inInterceptors> -->
-<!-- 	</jaxws:endpoint>  -->
 	
 	
 </beans>

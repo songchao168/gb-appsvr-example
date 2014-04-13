@@ -1,74 +1,146 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
-	xmlns:tx="http://www.springframework.org/schema/tx"
-	xmlns:aop="http://www.springframework.org/schema/aop"
-	xsi:schemaLocation="http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd
-		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
-		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
-		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+<beans
+xmlns="http://www.springframework.org/schema/beans"
+ xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:context="http://www.springframework.org/schema/context"
+ xmlns:aop="http://www.springframework.org/schema/aop"
+ xmlns:tx="http://www.springframework.org/schema/tx"
+ xmlns:jaxws="http://cxf.apache.org/jaxws"
+ xmlns:mvc="http://www.springframework.org/schema/mvc"
+ xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                    http://www.springframework.org/schema/data/jpa
+    				http://www.springframework.org/schema/data/jpa/spring-jpa-1.0.xsd
+                    http://www.springframework.org/schema/context
+                    http://www.springframework.org/schema/context/spring-context-3.0.xsd
+                    http://www.springframework.org/schema/aop
+                    http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+                    http://www.springframework.org/schema/tx
+                    http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+                    http://cxf.apache.org/jaxws
+    				http://cxf.apache.org/schemas/jaxws.xsd
+    				http://www.springframework.org/schema/mvc 
+					http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
+					
+	<!-- Scans for application @Components to deploy -->
+	<!-- <context:component-scan base-package="genebook.appsvr.example" />	 -->
+					
+  	<!-- Activates annotation-based bean configuration -->
+	<context:annotation-config />
+	
+		<!-- 配置解释处理器为@AspectJ注解提供支持 -->
+   	<aop:aspectj-autoproxy>
+   		<aop:include name="controllerAspect" />
+   	</aop:aspectj-autoproxy>
+	
+	<!-- 加载应用配置文件 -->
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:application.properties</value>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- Instructs Spring to perfrom declarative transaction managemenet on annotated classes -->
+	<tx:annotation-driven />
+ 	<jpa:repositories base-package="genebook.appsvr.example.*.dao"/> 
+	<!-- Drives transactions using local JPA APIs -->
+	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="entityManagerFactory" />
+	</bean>
 		
-<!-- 该文件定义公用组件、datasource等全局组件 -->
-   
-  	<context:property-placeholder location="classpath:application.properties" />
-	<!-- GeneBook Oracle数据源 -->
-	<bean id="genebookOracleDataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
-    	<property name="driverClass" value="oracle.jdbc.driver.OracleDriver" />
+	<!-- Creates a EntityManagerFactory for use with the Hibernate JPA provider and a simple in-memory data source populated with test data -->
+	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="jpaVendorAdapter">
+			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" />
+		</property>
+	</bean>
+
+	<!-- Deploys a in-memory "booking" datasource populated -->
+	    <!-- 配置数据源 -->
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+    	<!-- <property name="driverClass" value="oracle.jdbc.driver.OracleDriver" /> -->
+    	<property name="driverClass" value="com.mysql.jdbc.Driver" />
 		<property name="jdbcUrl" value="${db.url}" />
 		<property name="user" value="${db.username}" />
 		<property name="password" value="${db.password}" />
+		
 		<!-- 连接池中保留的最大连接数 -->
-		<property name="maxPoolSize" value="100" />
+		<property name="maxPoolSize" value="50" />
 		<!-- 连接池中保留的最小连接数 -->
-		<property name="minPoolSize" value="20" />
+		<property name="minPoolSize" value="10" />
 		<!-- 初始化时获取的连接数  initialPoolSize>=minPoolSize && initialPoolSize<=maxPoolSize -->
-		<property name="initialPoolSize" value="20" />
+		<property name="initialPoolSize" value="15" />
 		<!-- 最大空闲时间(秒) -->
 		<property name="maxIdleTime" value="60" />
 		<!-- 每隔60秒检查连接池中的空闲连接 -->
 		<property name="idleConnectionTestPeriod" value="60" />
-		 <!-- global PreparedStatement cache -->
+		<!--  global PreparedStatement cache -->
 		<property name="maxStatements" value="400"/>
 		<!-- 连接池用完时,等待获取新连接的时间 (毫秒) -->
 		<property name="checkoutTimeout" value="30000"/>
     </bean>
+
 	<!-- GeneBook Oracle数据源事务 -->
-	<bean id="genebookOracleTxManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+<!-- 	<bean id="genebookOracleTxManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
     	<property name="dataSource" ref="genebookOracleDataSource" />
     </bean>
-     <bean id="nativeJdbcExtractor" class="org.springframework.jdbc.support.nativejdbc.C3P0NativeJdbcExtractor "
-		lazy-init="true" /> 
-    
-    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
-		<property name="dataSource" ref="genebookOracleDataSource" />
-		<property name="nativeJdbcExtractor" ref="nativeJdbcExtractor" />
-	</bean>
-<!-- 	<tx:annotation-driven transaction-manager="genebookOracleTxManager" />
- -->	
     <tx:advice id="genebookOracleTxAdvice" transaction-manager="genebookOracleTxManager">
 		<tx:attributes>
-			<!-- 查 -->
+			查
 			<tx:method name="find*" read-only="true"/>
-			<!-- 增 -->
+			增
 			<tx:method name="add*" propagation="REQUIRED" rollback-for="Throwable"/>
-			<!-- 改 -->
+			改
 			<tx:method name="update*" propagation="REQUIRED" rollback-for="Throwable"/>
-			<!-- 删 -->
+			删
 			<tx:method name="del*" propagation="REQUIRED" rollback-for="Throwable" />
+			执行XX
+			<tx:method name="exec*" propagation="REQUIRED" rollback-for="Throwable" />
 		</tx:attributes>
-	</tx:advice>
+	</tx:advice> -->
 	<!-- 事务切面作用于service层 -->
-    <aop:config>
+<!--     <aop:config>
 		<aop:pointcut id="serviceOperation" expression="execution(public * genebook..service.*.*(..))" />
-		<aop:advisor advice-ref="genebookOracleTxAdvice" pointcut-ref="serviceOperation" />
-	</aop:config>
+		<aop:advisor advice-ref="genebookOracleTxAdvice"  pointcut-ref="serviceOperation" />
+	</aop:config> -->
+
+
+	   	
+	<bean id="defaultLobHandler"  
+		class="org.springframework.jdbc.support.lob.DefaultLobHandler"  
+	   	lazy-init="true" /> 
+   	<bean id="nativeJdbcExtractor" class="org.springframework.jdbc.support.nativejdbc.C3P0NativeJdbcExtractor "
+		lazy-init="true" /> 
+   	
+	<bean id="messageSource"
+    	class="org.springframework.context.support.ReloadableResourceBundleMessageSource">  
+            <property name="basename" value="classpath:resources/messages/messages"/>  
+            <property name="fileEncodings" value="utf-8"/>  
+            <property name="cacheSeconds" value="120"/>  
+    </bean> 
 	
+	<bean id="validator"   
+		class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">  
+        <property name="providerClass"  value="org.hibernate.validator.HibernateValidator"/>  
+        <!-- 如果不加默认到 使用classpath下的 ValidationMessages.properties -->
+        <property name="validationMessageSource" ref="messageSource"/>
+	</bean>   
+  
 	
+	<!-- Import Tiles-related configuration -->
+	
+	<!-- Import webService configuration -->
+	<import resource="beans-dao.xml" />
+	<import resource="beans-service.xml" />
 	<import resource="spring-cxf.xml"/>
-	<import resource="beans-dao.xml"/>
-	<import resource="beans-service.xml"/>
 	
+	
+	<!--文件上传-->
+<!--    <bean id="multipartResolver"  class="org.springframework.web.multipart.commons.CommonsMultipartResolver">-->
+<!--    	<property name="maxUploadSize" value="10485760"/> -->
+<!--    </bean> -->
 </beans>
